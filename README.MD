@@ -15,7 +15,7 @@ O objetivo deste projeto é simular o fluxo de instruções através de um pipel
 ## Estrutura do Projeto
 A estrutura do projeto foi cuidadosamente organizada para modularizar cada componente e manter o código limpo e fácil de entender. Aqui está a disposição das pastas e arquivos:
 
-```plaintext
+
 von_neumann_pipeline_simulator/
 ├── data/
 │   ├── Instructions.txt      # Arquivo de instruções
