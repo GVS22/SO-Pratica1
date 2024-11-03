@@ -52,40 +52,40 @@ A classe Simulator integra todos os componentes (CPU, Memória, Pipeline) e coor
 
 Principais Métodos:
 
-- **__init__: Configura o simulador, inicializando CPU, memória e pipeline.
-- **run: Processa cada instrução no pipeline, exibindo o estado dos registradores e da memória após cada ciclo.
+- __init__: Configura o simulador, inicializando CPU, memória e pipeline.
+- run: Processa cada instrução no pipeline, exibindo o estado dos registradores e da memória após cada ciclo.
 ##cpu.py
 Define a classe CPU, que contém os registradores e implementa a lógica para executar cada instrução (ADD, SUB, MULT, DIV, BEQ, JUMP, LOAD, STORE). Este componente simula o núcleo de processamento.
 
 Principais Métodos:
 
-- **execute_instruction: Executa a instrução específica, modificando o registrador de destino com base na operação.
-- **__str__: Retorna uma string com o estado dos registradores, útil para depuração.
+- execute_instruction: Executa a instrução específica, modificando o registrador de destino com base na operação.
+- __str__: Retorna uma string com o estado dos registradores, útil para depuração.
 ##memory.py
 A classe Memory simula a memória principal. Ela armazena dados em um vetor e permite operações de leitura e escrita em posições de memória específicas. Atualmente, as operações LOAD e STORE são configuradas para operar entre registradores e não utilizam a memória principal.
 
 Principais Métodos:
 
-- **read: Lê o valor de uma posição de memória.
-- **write: Escreve um valor em uma posição de memória.
-- **__str__: Exibe um estado parcial da memória para facilitar a depuração.
+- read: Lê o valor de uma posição de memória.
+- write: Escreve um valor em uma posição de memória.
+- __str__: Exibe um estado parcial da memória para facilitar a depuração.
 ##pipeline.py
 O pipeline gerencia os estágios de execução de cada instrução. Ele contém cinco estágios (IF, ID, EX, MEM, WB) e uma fila de instruções (instruction_queue). A cada ciclo, uma instrução avança para o próximo estágio, até que todas as instruções completem o pipeline.
 
 Principais Métodos:
 
-- **add_instruction: Adiciona uma nova instrução ao pipeline.
-- **process_pipeline: Simula o avanço de instruções pelos cinco estágios do pipeline, processando a execução no estágio MEM.
+- add_instruction: Adiciona uma nova instrução ao pipeline.
+- process_pipeline: Simula o avanço de instruções pelos cinco estágios do pipeline, processando a execução no estágio MEM.
 ##utils.py
 O arquivo utils.py contém funções auxiliares para carregar as instruções (Instructions.txt) e os valores iniciais dos registradores (setRegisters.txt) a partir dos arquivos.
 
 Principais Funções:
 
-- **load_registers: Lê e retorna um dicionário com os valores iniciais dos registradores.
-- **load_instructions: Lê e retorna uma lista com as instruções a serem executadas.
+- load_registers: Lê e retorna um dicionário com os valores iniciais dos registradores.
+- load_instructions: Lê e retorna uma lista com as instruções a serem executadas.
 ##Como o Pipeline é Simulado
 Para simular o pipeline, o código executa cada estágio sequencialmente para cada instrução, mas organiza as instruções de forma que várias delas possam avançar no pipeline a cada ciclo.
 
-- **Fila de Instruções: O pipeline usa uma fila (instruction_queue) onde as instruções aguardam para avançar nos estágios.
-- **Processamento por Estágio: Cada instrução passa pelos estágios IF, ID, EX, MEM, e WB. Enquanto uma instrução avança para o próximo estágio, outra pode iniciar o pipeline, simulando o processamento paralelo.
-- **Finalização: Quando uma instrução completa o estágio WB, ela é removida da fila, simulando a finalização de sua execução.
+- Fila de Instruções: O pipeline usa uma fila (instruction_queue) onde as instruções aguardam para avançar nos estágios.
+- Processamento por Estágio: Cada instrução passa pelos estágios IF, ID, EX, MEM, e WB. Enquanto uma instrução avança para o próximo estágio, outra pode iniciar o pipeline, simulando o processamento paralelo.
+- Finalização: Quando uma instrução completa o estágio WB, ela é removida da fila, simulando a finalização de sua execução.
