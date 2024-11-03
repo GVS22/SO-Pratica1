@@ -15,46 +15,33 @@ O objetivo deste projeto é simular o fluxo de instruções através de um pipel
 ## Estrutura do Projeto
 A estrutura do projeto foi cuidadosamente organizada para modularizar cada componente e manter o código limpo e fácil de entender. Aqui está a disposição das pastas e arquivos:
 
-
-von_neumann_pipeline_simulator/
-├── data/
-│   ├── Instructions.txt      # Arquivo de instruções
-│   └── setRegisters.txt      # Arquivo de valores iniciais dos registradores
-├── src/
-│   ├── cpu.py                # Classe CPU para operações de instruções
-│   ├── memory.py             # Classe Memory para simulação de armazenamento de dados
-│   ├── pipeline.py           # Classe Pipeline para gerenciar estágios de execução
-│   ├── simulator.py          # Classe Simulator que integra CPU, memória e pipeline
-│   └── utils.py              # Funções utilitárias para carregar arquivos
-├── README.md                 # Documentação do projeto
-└── main.py                   # Script principal para execução do simulador
-```plaintext  
+ 
 
 ## Configurar os Arquivos de Entrada
 Certifique-se de que a pasta data/ contenha dois arquivos de entrada essenciais:
 - **Instructions.txt: Contém as instruções a serem executadas, uma por linha, no formato:
-```plaintext
+
 OPERACAO, REGISTRADOR_DESTINO, REGISTRADOR_1, REGISTRADOR_2
-```plaintext
+
 Exemplo:
-```plaintext
+
 ADD, 8, 1, 2
 SUB, 9, 8, 3
 BEQ, 12, 6, 7
 JUMP, 14, 0, 0
-```plaintext
+
 - **setRegisters.txt: Define os valores iniciais dos registradores no formato:
-```plaintext
+
 REGISTRADOR, VALOR
-```plaintext
+
 Exemplo:
-```plaintext
+
 1,20
 2,10
 3,5
 6,15
 7,15
-```plaintext
+
 
 #Explicação dos Componentes do Código
 ##main.py
