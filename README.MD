@@ -12,9 +12,6 @@ O objetivo deste projeto é simular o fluxo de instruções através de um pipel
 - **Operações de Transferência entre Registradores**: LOAD e STORE, para movimentação de dados entre registradores.
 - **Organização Modular do Código**: Dividido em arquivos para CPU, memória, pipeline, simulador principal e funções utilitárias, o que torna o código organizado e de fácil manutenção.
 
-## Estrutura do Projeto
-A estrutura do projeto foi cuidadosamente organizada para modularizar cada componente e manter o código limpo e fácil de entender. Aqui está a disposição das pastas e arquivos:
-
  
 
 ## 2. Configurar os Arquivos de Entrada
