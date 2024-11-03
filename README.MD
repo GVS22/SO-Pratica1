@@ -1,147 +1,132 @@
-Simulador da Arquitetura de Von Neumann com Pipeline MIPS
-Descrição do Projeto
-Este projeto é um simulador da Arquitetura de Von Neumann com um pipeline MIPS básico, desenvolvido em Python. A arquitetura de Von Neumann, que usa uma única memória compartilhada para dados e instruções, é fundamental para os sistemas computacionais modernos. Esse simulador é uma ferramenta educacional que permite observar como instruções são carregadas, decodificadas, executadas e como os resultados são armazenados.
+# Simulador da Arquitetura de Von Neumann com Pipeline MIPS
 
-Funcionalidades
-Execução em Pipeline: Cada instrução passa pelos cinco estágios clássicos de um pipeline MIPS: IF, ID, EX, MEM, WB.
-Operações Básicas: Suporta operações aritméticas (ADD, SUB, MULT, DIV), operações de carregamento e armazenamento (LOAD, STORE), e instruções de controle de fluxo (BEQ, JUMP).
-Interface Modular: A arquitetura do código é dividida em módulos, facilitando a manutenção e expansão.
-Estrutura do Projeto
-plaintext
-Copiar código
+## Descrição do Projeto
+Este projeto é um simulador de um pipeline MIPS básico na arquitetura de Von Neumann, desenvolvido em Python. A arquitetura de Von Neumann utiliza uma única memória para armazenar dados e instruções, e o pipeline MIPS permite processar múltiplas instruções simultaneamente em diferentes estágios, otimizando a execução.
+
+O objetivo deste projeto é simular o fluxo de instruções através de um pipeline com cinco estágios. Esse pipeline fatiado permite que uma instrução entre no pipeline a cada ciclo de relógio e avance etapa por etapa, enquanto novas instruções continuam a ser adicionadas. Este simulador é especialmente útil para compreender como a CPU gerencia múltiplas instruções ao mesmo tempo e para visualizar o impacto das instruções aritméticas, condicionais e de salto na arquitetura MIPS.
+
+## Funcionalidades
+- **Pipeline MIPS de 5 estágios**: Cada instrução passa pelos cinco estágios clássicos do pipeline MIPS: IF, ID, EX, MEM, WB.
+- **Suporte a Operações Aritméticas**: ADD, SUB, MULT, DIV.
+- **Instruções de Controle de Fluxo**: BEQ (desvio condicional) e JUMP (salto incondicional).
+- **Operações de Transferência entre Registradores**: LOAD e STORE, para movimentação de dados entre registradores.
+- **Organização Modular do Código**: Dividido em arquivos para CPU, memória, pipeline, simulador principal e funções utilitárias, o que torna o código organizado e de fácil manutenção.
+
+## Estrutura do Projeto
+A estrutura do projeto foi cuidadosamente organizada para modularizar cada componente e manter o código limpo e fácil de entender. Aqui está a disposição das pastas e arquivos:
+
+```plaintext
 von_neumann_pipeline_simulator/
 ├── data/
 │   ├── Instructions.txt      # Arquivo de instruções
 │   └── setRegisters.txt      # Arquivo de valores iniciais dos registradores
 ├── src/
-│   ├── cpu.py                # Classe CPU com operações de instruções
-│   ├── memory.py             # Classe Memory para armazenamento de dados
+│   ├── cpu.py                # Classe CPU para operações de instruções
+│   ├── memory.py             # Classe Memory para simulação de armazenamento de dados
 │   ├── pipeline.py           # Classe Pipeline para gerenciar estágios de execução
 │   ├── simulator.py          # Classe Simulator que integra CPU, memória e pipeline
 │   └── utils.py              # Funções utilitárias para carregar arquivos
 ├── README.md                 # Documentação do projeto
 └── main.py                   # Script principal para execução do simulador
-data/: Contém os arquivos com as instruções e os valores iniciais dos registradores.
-src/: Contém o código-fonte organizado por módulos, cada um responsável por uma parte específica do simulador.
-main.py: O ponto de entrada do simulador.
-Como Funciona
-Arquivos de Entrada
-Instructions.txt: Contém as instruções a serem executadas pelo simulador, uma por linha, no formato:
-
-mathematica
-Copiar código
-OPERAÇÃO, REGISTRADOR_DESTINO, REGISTRADOR_1, REGISTRADOR_2
-Exemplo:
-plaintext
-Copiar código
-ADD, 1, 2, 3
-SUB, 4, 1, 3
-STORE, 3, 2, 0
-LOAD, 0, 2, 0
-BEQ, 7, 3, 4
-JUMP, 8, 0, 0
-setRegisters.txt: Define os valores iniciais dos registradores no formato:
-
-Copiar código
-REGISTRADOR, VALOR
-Exemplo:
-plaintext
-Copiar código
-2,10
-3,5
-4,7
-Esses arquivos devem estar na pasta data/ para que o simulador possa acessá-los.
-
-Pipeline MIPS
-O pipeline MIPS implementado neste simulador segue os cinco estágios clássicos:
+Como Funciona o Pipeline MIPS
+O pipeline MIPS usado aqui é um modelo de pipeline de cinco estágios. Cada instrução passa pelos seguintes estágios:
 
 IF (Instruction Fetch): Carrega a instrução da memória.
-ID (Instruction Decode): Decodifica a instrução e prepara os registradores.
+ID (Instruction Decode): Decodifica a instrução e identifica os registradores.
 EX (Execute): Executa a operação aritmética ou lógica.
-MEM (Memory Access): Acessa a memória para operações LOAD e STORE.
-WB (Write Back): Escreve o resultado no registrador de destino.
-Cada instrução passa por esses estágios, permitindo a execução paralela de instruções em diferentes estágios do pipeline.
+MEM (Memory Access): Acessa a memória, se necessário, para operações LOAD e STORE.
+WB (Write Back): Escreve o resultado da operação no registrador de destino.
+Cada estágio é tratado de forma sequencial no simulador, mas os estágios são organizados de forma que várias instruções possam avançar simultaneamente ao longo do pipeline. Isso significa que enquanto uma instrução está no estágio EX, uma nova pode começar em IF.
 
-Instruções para Execução
-Clonar o Repositório
-
-Clone o repositório para o seu ambiente local:
+Como Usar o Simulador
+1. Clonar o Repositório
+Primeiro, clone o repositório em sua máquina local:
 
 bash
 Copiar código
-git clone https://github.com/seu-usuario/von_neumann_pipeline_simulator.git
-cd von_neumann_pipeline_simulator
-Instalação dos Requisitos
+git clone https://github.com/GVS22/SO-Pratica1.git
+cd SO-Pratica1
+2. Configurar os Arquivos de Entrada
+Certifique-se de que a pasta data/ contenha dois arquivos de entrada essenciais:
 
-Não há dependências externas para este projeto, apenas Python 3.8+.
+Instructions.txt: Contém as instruções a serem executadas, uma por linha, no formato:
 
-Configuração dos Arquivos de Entrada
+plaintext
+Copiar código
+OPERACAO, REGISTRADOR_DESTINO, REGISTRADOR_1, REGISTRADOR_2
+Exemplo:
 
-Certifique-se de que os arquivos Instructions.txt e setRegisters.txt estão na pasta data/. Esses arquivos contêm as instruções a serem executadas e os valores iniciais dos registradores, respectivamente.
+plaintext
+Copiar código
+ADD, 8, 1, 2
+SUB, 9, 8, 3
+BEQ, 12, 6, 7
+JUMP, 14, 0, 0
+setRegisters.txt: Define os valores iniciais dos registradores no formato:
 
-Executar o Simulador
+plaintext
+Copiar código
+REGISTRADOR, VALOR
+Exemplo:
 
-Execute o script principal:
+plaintext
+Copiar código
+1,20
+2,10
+3,5
+6,15
+7,15
+3. Executar o Simulador
+Com os arquivos Instructions.txt e setRegisters.txt preparados, execute o simulador:
 
 bash
 Copiar código
 python3 main.py
-Exemplo de Saída
-Durante a execução, o simulador exibirá o estado dos registradores e da memória a cada estágio do pipeline. Aqui está um exemplo de saída esperada:
+O simulador exibirá o estado do pipeline a cada ciclo, mostrando cada estágio (IF, ID, EX, MEM, WB) e o resultado após cada instrução.
 
-plaintext
-Copiar código
-IF: Processing ['ADD', '1', '2', '3']
-ID: Decoding ['ADD', '1', '2', '3']
-EX: Executing ADD on registers 2 and 3
-MEM: Accessing memory if needed for ['ADD', '1', '2', '3']
-WB: Writing result to register 1
-PC: 1, Registers: {0: 0, 1: 15, 2: 10, 3: 5, ...}
-Memory: [0, 0, 0, ...]
-Explicação dos Módulos
-1. cpu.py
-Define a classe CPU, que é responsável por:
+Explicação dos Componentes do Código
+main.py
+O arquivo main.py é o ponto de entrada do programa. Ele instancia a classe Simulator e executa o método run, que processa as instruções através do pipeline. O código carrega os arquivos de entrada e inicia o processo de simulação.
 
-Armazenar o valor dos registradores e o contador de programa (PC).
-Executar as operações de instruções, como ADD, SUB, LOAD, STORE, etc.
-Controlar o fluxo das instruções com operações de salto (BEQ, JUMP).
-2. memory.py
-A classe Memory simula a memória principal do sistema.
+simulator.py
+A classe Simulator integra todos os componentes (CPU, Memória, Pipeline) e coordena a execução das instruções. Ele carrega os valores iniciais dos registradores e as instruções de entrada e passa cada instrução pelo pipeline.
 
-Permite operações de leitura e escrita.
-A memória é representada por uma lista de tamanho fixo.
-3. pipeline.py
-A classe Pipeline gerencia os estágios de execução das instruções:
+Principais Métodos:
 
-Stages: Define os cinco estágios do pipeline (IF, ID, EX, MEM, WB).
-Queue: Armazena e processa as instruções em uma fila FIFO.
-Remove a instrução do pipeline apenas após o estágio WB.
-4. utils.py
-Funções utilitárias para carregar os arquivos de instruções e registradores iniciais.
+__init__: Configura o simulador, inicializando CPU, memória e pipeline.
+run: Processa cada instrução no pipeline, exibindo o estado dos registradores e da memória após cada ciclo.
+cpu.py
+Define a classe CPU, que contém os registradores e implementa a lógica para executar cada instrução (ADD, SUB, MULT, DIV, BEQ, JUMP, LOAD, STORE). Este componente simula o núcleo de processamento.
 
-load_registers: Carrega valores iniciais dos registradores a partir de setRegisters.txt.
-load_instructions: Carrega as instruções a partir de Instructions.txt.
-5. simulator.py
-A classe Simulator integra CPU, memória e pipeline.
+Principais Métodos:
 
-Carrega as instruções e valores iniciais dos registradores.
-Processa cada instrução e executa o pipeline.
-Exibe o estado final dos registradores e da memória após a execução.
-6. main.py
-O ponto de entrada do simulador, que inicializa e executa o processo completo:
+execute_instruction: Executa a instrução específica, modificando o registrador de destino com base na operação.
+__str__: Retorna uma string com o estado dos registradores, útil para depuração.
+memory.py
+A classe Memory simula a memória principal. Ela armazena dados em um vetor e permite operações de leitura e escrita em posições de memória específicas. Atualmente, as operações LOAD e STORE são configuradas para operar entre registradores e não utilizam a memória principal.
 
-Carrega arquivos de dados.
-Inicializa o simulador.
-Executa o pipeline e exibe os resultados.
-Possíveis Expansões
-Aqui estão algumas ideias para expandir o simulador no futuro:
+Principais Métodos:
 
-Instruções Adicionais: Adicionar mais operações aritméticas e lógicas.
-Gerenciamento de Memória: Simular cache e diferentes políticas de substituição.
-Multithreading: Permitir simulação de múltiplos núcleos, com registradores independentes para cada núcleo.
-Visualização Gráfica: Integrar uma interface gráfica para visualizar os estágios do pipeline.
-Conclusão
-Este simulador é uma ferramenta educacional que permite explorar os fundamentos da Arquitetura de Von Neumann e do pipeline MIPS. Ele mostra como instruções são executadas em um pipeline e permite observar o impacto de diferentes operações sobre o estado dos registradores e da memória.
+read: Lê o valor de uma posição de memória.
+write: Escreve um valor em uma posição de memória.
+__str__: Exibe um estado parcial da memória para facilitar a depuração.
+pipeline.py
+O pipeline gerencia os estágios de execução de cada instrução. Ele contém cinco estágios (IF, ID, EX, MEM, WB) e uma fila de instruções (instruction_queue). A cada ciclo, uma instrução avança para o próximo estágio, até que todas as instruções completem o pipeline.
 
+Principais Métodos:
 
+add_instruction: Adiciona uma nova instrução ao pipeline.
+process_pipeline: Simula o avanço de instruções pelos cinco estágios do pipeline, processando a execução no estágio MEM.
+utils.py
+O arquivo utils.py contém funções auxiliares para carregar as instruções (Instructions.txt) e os valores iniciais dos registradores (setRegisters.txt) a partir dos arquivos.
 
+Principais Funções:
+
+load_registers: Lê e retorna um dicionário com os valores iniciais dos registradores.
+load_instructions: Lê e retorna uma lista com as instruções a serem executadas.
+Como o Pipeline é Simulado
+Para simular o pipeline, o código executa cada estágio sequencialmente para cada instrução, mas organiza as instruções de forma que várias delas possam avançar no pipeline a cada ciclo.
+
+Fila de Instruções: O pipeline usa uma fila (instruction_queue) onde as instruções aguardam para avançar nos estágios.
+Processamento por Estágio: Cada instrução passa pelos estágios IF, ID, EX, MEM, e WB. Enquanto uma instrução avança para o próximo estágio, outra pode iniciar o pipeline, simulando o processamento paralelo.
+Finalização: Quando uma instrução completa o estágio WB, ela é removida da fila, simulando a finalização de sua execução.
